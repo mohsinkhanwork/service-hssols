@@ -174,7 +174,9 @@
                                 <a class="title" href="{{ route('service', $featured_service->slug) }}">{{ $featured_service->name }}</a>
                                 <div
                                     class="single_service_footer2 d-flex flex-wrap justify-content-between align-items-center">
-                                    <span>{{ $currency_icon->icon }}{{ $featured_service->price }}</span>
+                                    <span> <span>
+                                        {{ $currency_icon->icon }}{{ $featured_service->price }} 
+                                        <small class="text-muted">({{ $featured_service->price_tokens ?? 0 }} Tokens)</small></span>
                                     <a class="common_btn2" href="{{ route('ready-to-booking', $featured_service->slug) }}">{{__('user.Book now')}}</a>
                                 </div>
 
@@ -380,7 +382,9 @@
                                 <a class="title" href="{{ route('service', $popular_service->slug) }}">{{ $popular_service->name }}</a>
                                 <div
                                     class="single_service_footer2 d-flex flex-wrap justify-content-between align-items-center">
-                                    <span>{{ $currency_icon->icon }}{{ $popular_service->price }}</span>
+                                    <span>
+                                        {{ $currency_icon->icon }}{{ $featured_service->price }} 
+                                        <small class="text-muted">({{ $featured_service->price_tokens ?? 0 }} Tokens)</small>
                                     <a class="common_btn2" href="{{ route('ready-to-booking', $popular_service->slug) }}">{{__('user.Book now')}}</a>
                                 </div>
 

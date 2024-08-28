@@ -154,16 +154,37 @@
                                 @endforeach
                             </ul>
                             <div class="wsus__booking_cost">
-                                <p class="package_fee">{{__('user.Package Fee')}} <span>{{ $currency_icon->icon }}{{ $service->price }}</span></p>
+                                <p class="package_fee">{{__('user.Package Fee')}} 
+                                    {{--  <span>{{ $currency_icon->icon }}{{ $service->price }}</span>  --}}
+                                    <span> {{ $service->price_tokens }} Tokens</span>
+                                </p>
                                 <ul class="extra_service_area">
 
                                 </ul>
                                 @php
                                     $extra_service = 0.00;
+                                    $service_charges = \App\Models\ServiceCharge::first();
+                                    if($service_charges){
+                                        $service_charge = $service_charges->service_charge;
+                                        $extra_service = ($service->price * $service_charge) / 100;
+                                    }
                                 @endphp
-                                <h4>{{__('user.Extra Service')}} <span>{{ $currency_icon->icon }}<span id="extra_service_price">{{ round($extra_service, 2) }}</span> </span></h4>
+                                {{--  <h4>Service Charges <span><span id="extra_service_price">{{ round($service_charge, 2) }}</span>%</span></h4>  --}}
+                                <h4> Service Charges 
+                                    <span> {{ $currency_icon->icon }}
+                                        <span id="extra_service_price">
+                                            {{ round($extra_service, 2) }}
+                                        </span>
+                                    </span>
+                                </h4>
 
-                                <h5>{{__('user.Total')}} <span>{{ $currency_icon->icon }}<span id="total_price">{{ round($service->price + $extra_service, 2) }}</span></span></h5>
+                                <h5>{{__('user.Total')}} 
+                                    <span>
+                                        <span id="total_price">
+                                            {{ $service->price_tokens }} Tokens
+                                        </span>
+                                    </span>
+                                </h5>
                             </div>
                         </div>
                     </div>

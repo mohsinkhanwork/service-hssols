@@ -10,7 +10,37 @@
         <h1>{{__('user.Create Service')}}</h1>
 
       </div>
-
+        <div class="section-body">
+            <div class="row mt-sm-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4> Today Conversion Rate </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-12">
+                                @if($conversion_rate == null)
+                                    <div class="alert alert-danger">
+                                        <strong>Warning!</strong> Conversion rate is not set yet. Please contact the admin to set the conversion rate.
+                                    </div>
+                                @else
+                                    <label>Token Conversion Rate ({{ config('app.currency_code') }}) <span class="text-danger">*</span></label>
+                                    <input id="conversation_rate" type="text" class="form-control" 
+                                           value="1 {{ config('app.currency_code') }} = {{ $conversion_rate }} Tokens" readonly>
+                                    <small class="form-text text-muted">
+                                        This means for every 1 {{ config('app.currency_code') }}, you will receive {{ $conversion_rate }} tokens.
+                                    </small>
+                                @endif
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+      
       <form action="{{ route('provider.service.store') }}" method="POST" enctype="multipart/form-data" id="serviceForm">
         @csrf
       <div class="section-body">
@@ -37,7 +67,7 @@
                         </div>
 
                         <div class="form-group col-12">
-                            <label>{{__('user.Price')}} <span class="text-danger">*</span></label>
+                            <label>{{__('user.Price')}} {{ $currency_icon->icon }} <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="price">
                         </div>
 

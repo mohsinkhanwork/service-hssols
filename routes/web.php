@@ -46,6 +46,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Admin\BreadcrumbController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+use App\Http\Controllers\Admin\TokenController;
 
 
 
@@ -473,6 +474,28 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
     Route::put('provider-update/{id}',[ProviderController::class,'updateProvider'])->name('provider-update');
     Route::delete('provider-delete/{id}',[ProviderController::class,'destroy'])->name('provider-delete');
     Route::put('provider-status/{id}',[ProviderController::class,'changeStatus'])->name('provider-status');
+
+    //tokens
+    Route::get('tokens', [TokenController::class, 'index'])->name('tokens.index');
+    Route::get('tokens/create', [TokenController::class, 'create'])->name('tokens.create');
+    Route::post('tokens', [TokenController::class, 'store'])->name('tokens.store');
+    Route::get('tokens/{id}/edit', [TokenController::class, 'edit'])->name('tokens.edit');
+    Route::put('tokens/{id}', [TokenController::class, 'update'])->name('tokens.update');
+    //show token
+    Route::get('tokens/{id}', [TokenController::class, 'edit'])->name('tokens.edit');
+    //change status
+    Route::put('token-status/{id}', [TokenController::class, 'changeStatus'])->name('token.status');
+
+    //token detele
+    Route::delete('token-delete/{id}', [TokenController::class, 'destroy'])->name('tokens.destroy');
+
+    //tokens services charges admin.create_service_charges
+    Route::get('create_service_charges', [TokenController::class, 'create_service_charges'])->name('tokens.create_service_charges');
+    Route::post('store_service_charges', [TokenController::class, 'store_service_charges'])->name('service_charges.store');
+
+    //edit_service_charges
+    Route::get('edit_service_charges/{id}', [TokenController::class, 'edit_service_charges'])->name('edit_service_charges');
+    Route::put('update_service_charges/{id}', [TokenController::class, 'update_service_charges'])->name('update_service_charges');
 
 
     Route::get('send-email-to-all-provider',[ProviderController::class,'sendEmailToAllProvider'])->name('send-email-to-all-provider');

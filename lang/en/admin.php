@@ -609,5 +609,14 @@
   'Coupon Histories' => 'Coupon Histories',
   'Discount Amount' => 'Discount Amount',
   'Discount' => 'Discount',
+  'Token List' => 'Token List',
+  'Create Token' => 'Create Token',
+  'tokens' => 'Tokens',
+  'token_name' => 'Token Name',
+  'create_token' => 'Create Token',
+  'number_of_tokens' => 'Number of Tokens',
+  'token_price' => 'Token Price',
+  'edit_token' => 'Edit Token',
+  'update_token' => 'Update Token',
 );
  ?>

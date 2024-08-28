@@ -60,7 +60,12 @@
                                     data-bs-target="#v-pills-messages" type="button" role="tab"
                                     aria-controls="v-pills-messages" aria-selected="false"><span><i
                                             class="fas fa-star"></i></span> {{__('user.Reviews')}}</button>
-
+                                {{--  token balance  --}}
+                                <button class="nav-link" id="v-pills-token-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-token" type="button" role="tab"
+                                    aria-controls="v-pills-token" aria-selected="false"><span><i
+                                            class="fas fa-star"></i></span> Token Balance </button>
+                                {{--  end token balance  --}}
                                             <button class="nav-link support_ticket_tab" id="v-pills-messages-tab2" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-messages2" type="button" role="tab"
                                     aria-controls="v-pills-messages2" aria-selected="false"><span><i
@@ -270,6 +275,33 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="tab-pane fade" id="v-pills-token" role="tabpanel"
+                                aria-labelledby="v-pills-token-tab">
+                                <div class="wsus_dashboard_body dashboard_review">
+                                    <h3>
+                                        Token Balance
+                                    </h3>
+
+                                    <div class="wsus__single_review">
+                                        <div class="wsus__single_review_top">
+                                            <div class="text">
+                                                <h3>
+                                                    Token Balance
+                                                </h3>
+                                                <p>
+                                                    {{ $user->token_balance ?? 'No Token Balance' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                      
+
+                                    <div class="row">
+                                        {{ $reviews->links('custom_pagination') }}
+                                    </div>
+                                </div>
+                            
 
                                 <div class="tab-pane fade " id="v-pills-messages2" role="tabpanel"
                                     aria-labelledby="v-pills-messages-tab2">

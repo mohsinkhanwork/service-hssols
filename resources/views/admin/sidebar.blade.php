@@ -69,9 +69,22 @@
             <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>{{__('admin.Providers')}}</span></a>
             <ul class="dropdown-menu">
 
-                <li class="{{ Route::is('admin.provider') || Route::is('admin.provider-show') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.provider') }}">{{__('admin.Provider List')}}</a></li>
+                <li class="{{ Route::is('admin.provider') || Route::is('admin.provider-show') ? 'active' : '' }}">
+                  <a class="nav-link" href="{{ route('admin.provider') }}">{{__('admin.Provider List')}}</a></li>
 
                 <li class="{{ Route::is('admin.pending-provider') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.pending-provider') }}">{{__('admin.Pending Provider')}}</a></li>
+
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown {{  Route::is('admin.tokens.index') || Route::is('admin.tokens.create') ? 'active' : '' }}">
+            <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i>
+              <span>{{__('admin.tokens')}}</span>
+            </a>
+            <ul class="dropdown-menu">
+
+                <li class="{{ Route::is('admin.tokens.index') ? 'active' : '' }}">
+                  <a class="nav-link" href="{{ route('admin.tokens.index') }}">{{__('admin.Token List')}}</a></li>
 
             </ul>
           </li>

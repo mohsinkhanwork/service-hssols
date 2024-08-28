@@ -85,8 +85,8 @@
                                     <p>{{__('admin.Booking Id')}} : {{ $order->order_id }}</p>
                                     <p>{{__('admin.Booking Created')}} : {{ $order->created_at->format('h:i A, d-m-Y') }}</p>
                                     <p>{{__('admin.Schedule Date')}} : {{ $order->schedule_time_slot }}, {{ date('d-M-Y', strtotime($order->booking_date)) }}</p>
-                                    <p>{{__('admin.Client')}} : {{ $order->client->name ?? 'N/A' }}</p>
-                                    <p>{{__('admin.Phone')}} : {{ $order->client->phone ?? 'N/A' }}</p>
+                                    <p>{{__('admin.Client')}} : {{ $order->client ? $order->client->name : 'N/A' }}</p>
+                                    <p>{{__('admin.Phone')}} : {{ $order->client ? $order->client->phone : 'N/A' }}</p>
                                     <p>{{__('admin.Status')}} :
 
                                         @if ($order->order_status == 'awaiting_for_provider_approval')

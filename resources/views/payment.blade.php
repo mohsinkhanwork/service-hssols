@@ -167,23 +167,48 @@
                                 @endforeach
                             </ul>
                             <div class="wsus__booking_cost">
-                                <p>{{__('user.Package Fee')}} <span>{{ $currency_icon->icon }}{{ $service->price }}</span></p>
+                                  <p>{{__('user.Package Fee')}} 
+                                    {{--  <span>{{ $currency_icon->icon }}{{ $service->price }}</span>--}}
+                                    <span> {{ $service->price_tokens }} Tokens</span>
+                                </p>
+                                
                                 <ul>
-                                    @if ($extra_services->ids)
+                                    {{--  @if ($extra_services->ids)
                                         @foreach ($extra_services->ids as $index => $id)
                                             <li>
                                                 <p>{{ $extra_services->names[$index] }} <b>x{{ $extra_services->quantities[$index] }}</b></p> <span>{{ $currency_icon->icon }}{{ $extra_services->prices[$index] }}</span>
                                             </li>
                                         @endforeach
-                                    @endif
+                                    @endif  --}}
+                                    @php
+                                    $extra_service = 0.00;
+                                    $service_charges = \App\Models\ServiceCharge::first();
+                                    if($service_charges){
+                                        $service_charge = $service_charges->service_charge;
+                                        $extra_service = ($service->price * $service_charge) / 100;
+                                    }
+                                @endphp
                                 </ul>
-                                <h4>{{__('user.Extra Service')}} <span>{{ $currency_icon->icon }}{{ $extra_services->extra_total }}</span></h4>
-                                <p>{{__('user.Subtotal')}} <span>{{ $currency_icon->icon }}{{ $extra_services->sub_total }}</span></p>
+                                {{--  <h4>{{__('user.Extra Service')}} <span>{{ $currency_icon->icon }}{{ $extra_services->extra_total }}</span></h4>  --}}
+                                <h4> Service Charges 
+                                    <span> {{ $currency_icon->icon }}
+                                        <span id="extra_service_price">
+                                            {{ round($extra_service, 2) }}
+                                        </span>
+                                    </span>
+                                </h4>
+                                {{--  <p>{{__('user.Subtotal')}} <span>{{ $currency_icon->icon }}{{ $extra_services->sub_total }}</span></p>  --}}
 
                                 <p>{{__('user.Discount')}} (-) <span>{{ $currency_icon->icon }}{{ $coupon_discount }}</span></p>
 
-                                <h5>{{__('user.Total')}} <span>{{ $currency_icon->icon }}{{ $extra_services->total - $coupon_discount }}</span></h5>
-
+                                {{--  <h5>{{__('user.Total')}} <span>{{ $currency_icon->icon }}{{ $extra_services->total - $coupon_discount }}</span></h5>  --}}
+                                <h5>{{__('user.Total')}} 
+                                    <span>
+                                        <span id="total_price">
+                                            {{ $service->price_tokens }} Tokens
+                                        </span>
+                                    </span>
+                                </h5>
                                 <form action="{{ route('apply-coupon') }}">
                                     <input type="text" name="coupon" placeholder="{{__('user.Coupon Code')}}" autocomplete="off" required>
 

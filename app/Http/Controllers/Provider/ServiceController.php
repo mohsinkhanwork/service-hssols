@@ -13,6 +13,7 @@ use App\Models\Order;
 use Auth;
 use Image;
 use File;
+use App\Models\Token;
 
 use Illuminate\Pagination\Paginator;
 
@@ -79,13 +80,15 @@ class ServiceController extends Controller
         return view('provider.service', compact('services','currency_icon','title'));
     }
 
-
-
-
-
     public function create(){
         $categories = Category::where('status', 1)->get();
-        return view('provider.create_service', compact('categories'));
+        $conversion_rate = Token::where('status', 1)->value('conversion_rate');
+        $setting = Setting::first();
+        $currency_icon = array(
+            'icon' => $setting->currency_icon
+        );
+        $currency_icon = (object) $currency_icon;
+        return view('provider.create_service', compact('categories','conversion_rate','currency_icon'));
     }
 
     public function store(Request $request){
@@ -150,6 +153,13 @@ class ServiceController extends Controller
         }
         $benifits = json_encode($benifits);
 
+        //get conversion rate
+        $conversion_rate = Token::where('status', 1)->value('conversion_rate');
+
+        //convert price to tokens
+        $price_tokens = $request->price * $conversion_rate;
+
+        $service->price_tokens = $price_tokens;
         $service->provider_id = $user->id;
         $service->category_id = $request->category_id;
         $service->name = $request->name;
@@ -162,6 +172,7 @@ class ServiceController extends Controller
         $service->package_features = $is_pacakge_feature ? $package_features : '';
         $service->what_you_will_provide = $is_what_you_will_provide ?  $what_you_will_provides : '';
         $service->benifit = $is_benifit ? $benifits : '';
+        $service->approve_by_admin = 1;
         $service->save();
 
 

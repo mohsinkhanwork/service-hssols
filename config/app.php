@@ -143,6 +143,8 @@ return [
         // 'store'  => 'redis',
     ],
 
+    'currency_code' => 'USD',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

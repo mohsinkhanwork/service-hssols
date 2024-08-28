@@ -56,7 +56,9 @@
                                 <img class="service_image" src="{{ asset($service->image) }}" alt="">
                                 <div class="service_detail">
                                     <h4>{{ $service->name }}</h4>
-                                    <h6>{{__('admin.Price')}} : {{ $currency_icon->icon }}{{ $service->price }}</h6>
+                                    <h6>{{ __('user.Price') }} : {{ $currency_icon->icon }}{{ $service->price }} 
+                                        <small class="text-muted">({{ $service->price_tokens }} Tokens)</small>
+                                    </h6>
                                     <p>{{__('admin.Category')}} : {{ $service->category->name }}</p>
                                     @if ($service->make_featured == 1 || $service->make_popular == 1)
                                         <p>{{__('admin.Highlight')}} :

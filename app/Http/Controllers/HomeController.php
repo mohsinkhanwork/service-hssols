@@ -1070,7 +1070,8 @@ class HomeController extends Controller
         $categories = Category::orderBy('name','asc')->select('id','name','slug','icon')->where('status',1)->get();
 
         $service_pagiante_qty = CustomPagination::whereId('2')->first()->qty;
-        $services = Service::with('category','provider')->where(['approve_by_admin' => 1, 'status' => 1, 'is_banned' => 0])->select('id','name','slug','image','price','category_id','provider_id','is_banned','status','approve_by_admin');
+        $services = Service::with('category','provider')->where(['approve_by_admin' => 1, 'status' => 1, 'is_banned' => 0])
+                            ->select('id','name','slug','image','price', 'price_tokens' ,'category_id','provider_id','is_banned','status','approve_by_admin');
 
         if($request->category){
             $category = Category::where('slug', $request->category)->first();
@@ -1127,7 +1128,7 @@ class HomeController extends Controller
         $services = $services->paginate($service_pagiante_qty);
 
         $services = $services->appends($request->all());
-
+        
         $setting = Setting::first();
         $currency_icon = (object) array('icon' => $setting->currency_icon);
 

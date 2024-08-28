@@ -14,6 +14,7 @@ use App\Models\User;
 use Auth;
 use Image;
 use File;
+use App\Models\Token;
 
 use Illuminate\Pagination\Paginator;
 
@@ -97,8 +98,13 @@ class AdminServiceController extends Controller
     public function create(){
         $categories = Category::where('status', 1)->get();
         $providers = User::where('is_provider',1)->orderBy('name','asc')->select('id','name','email')->get();
-
-        return view('admin.create_service', compact('categories','providers'));
+        $conversion_rate = Token::where('status', 1)->value('conversion_rate');
+        $setting = Setting::first();
+        $currency_icon = array(
+            'icon' => $setting->currency_icon
+        );
+        $currency_icon = (object) $currency_icon;
+        return view('admin.create_service', compact('categories','providers','currency_icon','conversion_rate'));
     }
 
     public function store(Request $request){
@@ -164,6 +170,14 @@ class AdminServiceController extends Controller
 
         }
         $benifits = json_encode($benifits);
+
+        //get conversion rate
+        $conversion_rate = Token::where('status', 1)->value('conversion_rate');
+
+        //convert price to tokens
+        $price_tokens = $request->price * $conversion_rate;
+
+        $service->price_tokens = $price_tokens;
 
         $service->provider_id = $request->provider_id;
         $service->category_id = $request->category_id;

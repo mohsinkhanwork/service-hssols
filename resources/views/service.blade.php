@@ -180,7 +180,10 @@
                                         <a class="title" href="{{ route('service', $service->slug) }}">{{ $service->name }}</a>
                                         <div
                                             class="single_service_footer2 d-flex flex-wrap justify-content-between align-items-center">
-                                            <span>{{ $currency_icon->icon }}{{ $service->price }}</span>
+                                            <span>
+                                                {{--  {{ $currency_icon->icon }}{{ $service->price }}   --}}
+                                                <small class="text-muted">({{ $service->price_tokens }} Tokens)</small>
+                                            </span>
                                             <a class="common_btn2" href="{{ route('ready-to-booking', $service->slug) }}">{{__('user.Book now')}}</a>
                                         </div>
 
@@ -196,7 +199,11 @@
                                     <div class="wsus__services_text">
                                         <ul class="d-flex justify-content-between">
                                             <li><a href="{{ route('services',['category'=> $service->category->slug]) }}">{{ $service->category->name }}</a></li>
-                                            <li>{{ $currency_icon->icon }}{{ $service->price }}</li>
+                                            <li>
+                                                <span>
+                                                {{--  {{ $currency_icon->icon }}{{ $service->price }}   --}}
+                                                <small class="text-muted">({{ $service->price_tokens ?? 0 }} Tokens)</small>
+                                            </span>
                                         </ul>
                                         <a class="title" href="{{ route('service', $service->slug) }}">{{ $service->name }}</a>
                                         <div
