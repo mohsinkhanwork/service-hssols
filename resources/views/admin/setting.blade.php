@@ -37,9 +37,9 @@
                                         </li>
 
 
-                                        <li class="nav-item border rounded mb-1">
+                                        {{--  <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="cookie-tab" data-toggle="tab" href="#cookieTab" role="tab" aria-controls="cookieTab" aria-selected="true">{{__('admin.Cookie Consent')}}</a>
-                                        </li>
+                                        </li>  --}}
 
                                         <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="recaptcha-tab" data-toggle="tab" href="#recaptchaTab" role="tab" aria-controls="recaptchaTab" aria-selected="true">{{__('admin.Google Recaptcha')}}</a>
@@ -54,25 +54,25 @@
                                             <a class="nav-link" id="blog-comment-tab" data-toggle="tab" href="#blogCommentTab" role="tab" aria-controls="blogCommentTab" aria-selected="true">{{__('admin.Blog Comment')}}</a>
                                         </li>
 
-                                        <li class="nav-item border rounded mb-1">
+                                        {{--  <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="tawk-chat-tab" data-toggle="tab" href="#tawkChatTab" role="tab" aria-controls="tawkChatTab" aria-selected="true">{{__('admin.Tawk Chat')}}</a>
-                                        </li>
+                                        </li>  --}}
 
                                         <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="google-analytic-tab" data-toggle="tab" href="#googleAnalyticTab" role="tab" aria-controls="googleAnalyticTab" aria-selected="true">{{__('admin.Google Analytic')}}</a>
                                         </li>
 
-                                        <li class="nav-item border rounded mb-1">
+                                        {{--  <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="custom-pagination-tab" data-toggle="tab" href="#customPaginationTab" role="tab" aria-controls="customPaginationTab" aria-selected="true">{{__('admin.Custom Pagination')}}</a>
-                                        </li>
+                                        </li>  --}}
 
-                                        <li class="nav-item border rounded mb-1">
+                                        {{--  <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="social-login-tab" data-toggle="tab" href="#socialLoginTab" role="tab" aria-controls="socialLoginTab" aria-selected="true">{{__('admin.Social Login')}}</a>
-                                        </li>
+                                        </li>  --}}
 
-                                        <li class="nav-item border rounded mb-1">
+                                        {{--  <li class="nav-item border rounded mb-1">
                                             <a class="nav-link" id="facebook-pixel-tab" data-toggle="tab" href="#facebookPixelTab" role="tab" aria-controls="facebookPixelTab" aria-selected="true">{{__('admin.Facebook Pixel')}}</a>
-                                        </li>
+                                        </li>  --}}
 
                                     </ul>
                                 </div>
@@ -86,7 +86,7 @@
                                                       <form action="{{ route('admin.update-general-setting') }}" method="POST" enctype="multipart/form-data">
                                                           @csrf
                                                           @method('PUT')
-                                                          <div class="form-group">
+                                                          {{--  <div class="form-group">
                                                               <label for="">{{__('admin.Select Theme')}}</label>
                                                               <select name="selected_theme" id="" class="form-control">
                                                                   <option {{ $setting->selected_theme == 0 ? 'selected' : '' }} value="0">{{__('admin.All Theme')}}</option>
@@ -94,7 +94,7 @@
                                                                   <option {{ $setting->selected_theme == 2 ? 'selected' : '' }} value="2">{{__('admin.Theme Two')}}</option>
                                                                   <option {{ $setting->selected_theme == 3 ? 'selected' : '' }} value="3">{{__('admin.Theme Three')}}</option>
                                                               </select>
-                                                          </div>
+                                                          </div>  --}}
 
                                                           <div class="form-group">
                                                             <label for="">{{__('admin.Show provide contact info')}}</label>

@@ -128,7 +128,7 @@
 
                 <li class="{{ Route::is('admin.seo-setup') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.seo-setup') }}">{{__('admin.SEO Setup')}}</a></li>
 
-                <li class="{{ Route::is('admin.menu-visibility') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.menu-visibility') }}">{{__('admin.Menu Visibility')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.menu-visibility') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.menu-visibility') }}">{{__('admin.Menu Visibility')}}</a></li>  --}}
 
                 <li class="{{ Route::is('admin.maintainance-mode') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.maintainance-mode') }}">{{__('admin.Maintainance Mode')}}</a></li>
 
@@ -146,23 +146,23 @@
             <ul class="dropdown-menu">
                 <li class="{{ Route::is('admin.section-content') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.section-content') }}">{{__('admin.Section Content')}}</a></li>
 
-                <li class="{{ Route::is('admin.section-control') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.section-control') }}">{{__('admin.Section Control')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.section-control') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.section-control') }}">{{__('admin.Section Control')}}</a></li>  --}}
 
-                <li class="{{ Route::is('admin.slider.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.slider.index') }}">{{__('admin.Intro section')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.slider.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.slider.index') }}">{{__('admin.Intro section')}}</a></li>  --}}
 
                 <li class="{{ Route::is('admin.mobile-slider.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.mobile-slider.index') }}">{{__('admin.Mobile Slider')}}</a></li>
 
                 <li class="{{ Route::is('admin.counter.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.counter.index') }}">{{__('admin.Counter')}}</a></li>
 
-                <li class="{{ Route::is('admin.testimonial.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.testimonial.index') }}">{{__('admin.Testimonial')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.testimonial.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.testimonial.index') }}">{{__('admin.Testimonial')}}</a></li>  --}}
 
                 <li class="{{ Route::is('admin.join-as-a-provider') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.join-as-a-provider') }}">{{__('admin.Join as a Provider')}}</a></li>
 
-                <li class="{{ Route::is('admin.mobile-app') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.mobile-app') }}">{{__('admin.Mobile App')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.mobile-app') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.mobile-app') }}">{{__('admin.Mobile App')}}</a></li>  --}}
 
-                <li class="{{ Route::is('admin.subscriber-section') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.subscriber-section') }}">{{__('admin.Subscription Box')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.subscriber-section') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.subscriber-section') }}">{{__('admin.Subscription Box')}}</a></li>  --}}
 
-                <li class="{{ Route::is('admin.partner.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.partner.index') }}">{{__('admin.Partner')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.partner.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.partner.index') }}">{{__('admin.Partner')}}</a></li>  --}}
 
                 @php
                     $setting = App\Models\Setting::first();
@@ -230,7 +230,7 @@
 
                 <li class="{{ Route::is('admin.contact-us.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.contact-us.index') }}">{{__('admin.Contact Us')}}</a></li>
 
-                <li class="{{ Route::is('admin.custom-page.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.custom-page.index') }}">{{__('admin.Custom Page')}}</a></li>
+                {{--  <li class="{{ Route::is('admin.custom-page.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.custom-page.index') }}">{{__('admin.Custom Page')}}</a></li>  --}}
 
                 <li class="{{ Route::is('admin.terms-and-condition.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.terms-and-condition.index') }}">{{__('admin.Terms And Conditions')}}</a></li>
 
@@ -284,11 +284,12 @@
           @php
               $logedInAdmin = Auth::guard('admin')->user();
           @endphp
+          {{--
           @if ($logedInAdmin->admin_type == 1)
           <li  class="{{ Route::is('admin.clear-database') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.clear-database') }}"><i class="fas fa-trash"></i> <span>{{__('admin.Clear Database')}}</span></a></li>
-          @endif
+          @endif  --}}
 
-          <li class="{{ Route::is('admin.subscriber') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.subscriber') }}"><i class="fas fa-fire"></i> <span>{{__('admin.Subscribers')}}</span></a></li>
+          {{--  <li class="{{ Route::is('admin.subscriber') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.subscriber') }}"><i class="fas fa-fire"></i> <span>{{__('admin.Subscribers')}}</span></a></li>  --}}
 
           <li class="{{ Route::is('admin.contact-message') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.contact-message') }}"><i class="fas fa-fa fa-envelope"></i> <span>{{__('admin.Contact Message')}}</span></a></li>
 

@@ -40,7 +40,9 @@ use App\Models\Order;
 use App\Models\Schedule;
 use App\Models\Coupon;
 use App\Models\CouponHistory;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -48,6 +50,148 @@ class PaymentController extends Controller
     {
         $this->middleware('auth:web');
     }
+
+    public function processPayment(Request $request)
+    {
+        $balance = $request->input('balance');
+        $conversionRate = $request->input('token_amount');  // 100 tokens
+        
+        $conversionRateInNumber = (int) $conversionRate;
+        $tokenAmount = $conversionRateInNumber;
+    
+        $response = $this->initiatePeachPayment($balance);
+        Log::info('Peach Payments Response:', $response);
+    
+        try {
+            Log::info('Peach Payments Response:', $response);
+
+            return response()->json(['status' => 'debug', 'response' => $response]);
+            
+        } catch (Exception $e) {
+
+            Log::error('Payment initiation error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'status' => 'failed',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    
+
+    private function initiatePeachPayment($amount)
+    {
+    $entityId = '8ac7a4ca68c22c4d0168c2caab2e0025';
+    $signature = 'a668342244a9c77b08a2f9090d033d6e2610b431a5c0ca975f32035ed06164f4';  // Replace with your actual signature
+    $merchantTransactionId = 'OrderNo' . uniqid();  // Ensure uniqueness for each transaction
+    $currency = config('app.currency_code');  // Assuming 'ZAR' or any other currency code
+
+    try {
+        $client = new \GuzzleHttp\Client();
+
+        $cardTokens = [
+            '8ac7a49f8e9f15d2018ea09b285f0ebz',  // Replace with actual valid 32-char tokens
+            '8ac7a49f8e9f15d2018ea09b285f0abs'
+        ];
+
+        // Validate card tokens length
+        foreach ($cardTokens as $token) {
+            if (strlen($token) !== 32) {
+                throw new \Exception("Card token $token is not 32 characters long.");
+            }
+        }
+
+        $response = $client->request('POST', 'https://testsecure.peachpayments.com/checkout/initiate', [
+            'body' => json_encode([
+                'paymentType' => 'DB',  // 'DB' for debit
+                'currency' => $currency,
+                'amount' => (string)$amount,  // Convert to string as required by the API
+                'authentication.entityId' => $entityId,
+                'signature' => $signature,
+                'merchantTransactionId' => $merchantTransactionId,
+                'nonce' => 'UNQ' . uniqid(),  // Unique nonce for each request
+                'shopperResultUrl' => "https://yourstore.com/$merchantTransactionId",
+                'defaultPaymentMethod' => 'CARD',
+                'merchantInvoiceId' => 'INV-0001',
+                'cancelUrl' => "https://yourstore.com/$merchantTransactionId/cancelled",
+                'notificationUrl' => "https://yourstore.com/$merchantTransactionId/webhook",
+                'customParameters' => [
+                    'name' => 'Name1',
+                    'value' => 'Value1'
+                ],
+                'customer' => [
+                    'merchantCustomerId' => (string)971020,  // Convert to string
+                    'givenName' => 'John',
+                    'surname' => 'Smith',
+                    'mobile' => (string)27123456789,  // Convert to string
+                    'email' => 'johnsmith@mail.com',
+                    'status' => 'EXISTING',
+                    'birthDate' => '1970-02-17',
+                    'ip' => '192.168.1.1',
+                    'phone' => (string)27123456789,  // Convert to string
+                    'idNumber' => (string)9001010000084  // Convert to string
+                ],
+                'billing' => [
+                    'street1' => '1 Example Road',
+                    'street2' => 'LocalityA',
+                    'city' => 'Cape Town',
+                    'company' => 'CompanyA',
+                    'country' => 'ZA',
+                    'state' => 'Western Cape',
+                    'postcode' => (string)1234  // Convert to string
+                ],
+                'shipping' => [
+                    'street1' => '1 Example Road',
+                    'street2' => 'LocalityA',
+                    'city' => 'Cape Town',
+                    'company' => 'CompanyA',
+                    'postcode' => (string)1234,  // Convert to string
+                    'country' => 'ZA',
+                    'state' => 'Western Cape'
+                ],
+                'cart' => [
+                    'tax' => '15.00',
+                    'shippingAmount' => '12.25',
+                    'discount' => '02.25'
+                ],
+                'createRegistration' => 'false',
+                'cardTokens' => implode(',', $cardTokens), 
+                'allowStoringDetails' => 'true',
+                'originator' => 'Webstore',
+                'returnTo' => 'STORE'
+            ]),
+            'headers' => [
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ],
+        ]);
+
+        $responseBody = json_decode($response->getBody(), true);
+
+        if (isset($responseBody['result']) && $responseBody['result']['code'] == '000.100.110') {
+            // Payment successfully initiated
+            return $responseBody;
+        } else {
+            // Handle payment initiation error
+            return [
+                'error' => true,
+                'message' => $responseBody['result']['description'] ?? 'An error occurred',
+            ];
+        }
+    } catch (\Exception $e) {
+        // Handle any other exceptions
+        return [
+            'error' => true,
+            'message' => $e->getMessage(),
+        ];
+    }
+}
+
+
+
 
     public function apply_coupon(Request $request){
 

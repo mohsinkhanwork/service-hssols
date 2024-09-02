@@ -14,6 +14,7 @@ use App\Models\RefundRequest;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
 use App\Models\MessageDocument;
+use App\Models\Token;
 
 use App\Rules\Captcha;
 use Image;
@@ -67,7 +68,7 @@ class UserProfileController extends Controller
         }else{
             $active_theme = 'layout';
         }
-
+        $conversion_rate = Token::where('status', 1)->value('conversion_rate');
         return view('user.dashboard')->with([
             'active_theme' => $active_theme,
             'breadcrumb' => $breadcrumb,
@@ -80,6 +81,7 @@ class UserProfileController extends Controller
             'currency_icon' => $currency_icon,
             'reviews' => $reviews,
             'tickets' => $tickets,
+            'conversion_rate' => $conversion_rate
         ]);
     }
 

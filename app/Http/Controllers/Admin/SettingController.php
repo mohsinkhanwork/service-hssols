@@ -178,7 +178,7 @@ class SettingController extends Controller
             'currency_name' => 'required',
             'currency_icon' => 'required',
             'timezone' => 'required',
-            'selected_theme' => 'required',
+            // 'selected_theme' => 'required',
         ];
         $customMessages = [
             'layout.required' => trans('admin_validation.Layout is required'),
@@ -191,7 +191,7 @@ class SettingController extends Controller
         $this->validate($request, $rules,$customMessages);
 
         $setting = Setting::first();
-        $setting->selected_theme = $request->selected_theme;
+        // $setting->selected_theme = $request->selected_theme;
         $setting->text_direction = $request->layout;
         $setting->sidebar_lg_header = $request->lg_header;
         $setting->sidebar_sm_header = $request->sm_header;

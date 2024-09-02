@@ -283,6 +283,59 @@
                                         Token Balance
                                     </h3>
 
+                                    <div class="section-body">
+                                        <div class="row mt-sm-4">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4> Today Conversion Rate </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="form-group col-12">
+                                                            @if($conversion_rate == null)
+                                                                <div class="alert alert-danger">
+                                                                    <strong>Warning!</strong> Conversion rate is not set yet. Please set the conversion rate.
+                                                                </div>
+                                                            @else
+                                                                <label>Token Conversion Rate ({{ config('app.currency_code') }}) <span class="text-danger">*</span></label>
+                                                                <input id="conversation_rate" type="text" class="form-control" 
+                                                                       value="1 {{ config('app.currency_code') }} = {{ $conversion_rate }} Tokens" readonly>
+                                                                <small class="form-text text-muted">
+                                                                    This means for every 1 {{ config('app.currency_code') }}, you will receive {{ $conversion_rate }} tokens.
+                                                                </small>
+                                                            @endif
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="wsus__single_review">
+                                        <div class="wsus__single_review_top">
+                                            <div class="text">
+                                                <h3>Enter Balance</h3>
+                                                <form action="{{ route('payment.process') }}" method="POST">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="balance">Enter Amount ({{ config('app.currency_code') }})</label>
+                                                        <input id="balance" type="number" name="balance" class="form-control" required>
+                                                    </div>
+                                
+                                                    <div class="form-group">
+                                                        <label for="token_amount">Token Amount</label>
+                                                        <input id="token_amount" type="text" class="form-control" name="token_amount" readonly>
+                                                    </div>
+                                
+                                                    <button type="submit" class="btn btn-primary">Buy Now</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>  
+
                                     <div class="wsus__single_review">
                                         <div class="wsus__single_review_top">
                                             <div class="text">
@@ -295,6 +348,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                   
                                 </div>                                      
 
                                     <div class="row">
@@ -498,7 +553,16 @@
     ==========================-->
 
 
-<script>
+<script type="text/javascript">
+
+    document.getElementById('balance').addEventListener('input', function () {
+        const conversionRate = {{ $conversion_rate }};
+        const balance = this.value;
+        const tokenAmount = balance * conversionRate;
+        document.getElementById('token_amount').value = tokenAmount + ' Tokens';
+    });    
+
+
     (function($) {
         "use strict";
         $(document).ready(function () {
