@@ -19,6 +19,7 @@
         "paypal/rest-api-sdk-php": "*",
         "pusher/pusher-php-server": "^7.2",
         "razorpay/razorpay": "^2.8",
+        "shaz3e/peach-payment": "^1.0",
         "stripe/stripe-php": "^10.3",
         "tymon/jwt-auth": "^1.0"
     },

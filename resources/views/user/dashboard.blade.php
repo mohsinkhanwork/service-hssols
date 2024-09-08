@@ -36,6 +36,12 @@
         DASHBOARD START
     ==========================-->
     <section class="wsus__dashboard mt_90 xs_mt_60 mb_100 xs_mb_70">
+        @if(session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="container">
             <div class="wsus__dashboard_area">
                 <div class="row">
@@ -318,36 +324,55 @@
                                         <div class="wsus__single_review_top">
                                             <div class="text">
                                                 <h3>Enter Balance</h3>
-                                                <form action="{{ route('payment.process') }}" method="POST">
+                                                <form id="payment-form" action="{{ route('payment.process') }}" method="POST">
                                                     @csrf
                                                     <div class="form-group">
                                                         <label for="balance">Enter Amount ({{ config('app.currency_code') }})</label>
-                                                        <input id="balance" type="number" name="balance" class="form-control" required>
+                                                        <input id="balance" type="number" name="balance" class="form-control" value="{{ old('balance', $balance ?? '') }}" required>
                                                     </div>
-                                
+                                    
                                                     <div class="form-group">
                                                         <label for="token_amount">Token Amount</label>
-                                                        <input id="token_amount" type="text" class="form-control" name="token_amount" readonly>
+                                                        <input id="token_amount" type="text" class="form-control" name="token_amount" value="{{ old('token_amount', $tokenAmount ?? '') }}" readonly>
                                                     </div>
-                                
+                                    
                                                     <button type="submit" class="btn btn-primary">Buy Now</button>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>  
+                                    </div>
+         
 
-                                    <div class="wsus__single_review">
-                                        <div class="wsus__single_review_top">
-                                            <div class="text">
-                                                <h3>
-                                                    Token Balance
-                                                </h3>
-                                                <p>
-                                                    {{ $user->token_balance ?? 'No Token Balance' }}
-                                                </p>
+                                    <div class="card shadow-sm mb-4">
+                                        <div class="card-body">
+                                            <h4 class="card-title mb-4 text-center">Token Balance</h4>
+                                            <div class="list-group">
+                                                @if(isset($tokenOrders) && count($tokenOrders) > 0)
+                                                    @foreach($tokenOrders as $tokenOrder)
+                                                        <div class="list-group-item">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="fw-bold">Number of Tokens:</span>
+                                                                <span class="badge bg-primary rounded-pill">{{ $tokenOrder->tokens_purchased }}</span>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                                <span class="fw-bold">Status:</span>
+                                                                @if($tokenOrder->status == 'completed')
+                                                                    <span class="badge bg-success">{{ ucfirst($tokenOrder->status) }}</span>
+                                                                @else
+                                                                    <span class="badge bg-warning text-dark">{{ ucfirst($tokenOrder->status) }}</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <div class="alert alert-info text-center mt-4">
+                                                        No Token Balance Available
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
+                                    
 
                                    
                                 </div>                                      

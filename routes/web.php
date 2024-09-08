@@ -141,8 +141,13 @@ Route::group(['middleware' => ['maintainance']], function () {
 
     Route::get('/apply-coupon', [PaymentController::class, 'apply_coupon'])->name('apply-coupon');
     
+    // peach payment
+    Route::post('/peachpayment/create-transaction', [PaymentController::class, 'processPayment'])->name('payment.process');
+    Route::match(['get', 'post'], '/payment/success/', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+    //payment checkout
+    Route::get('/peachpayment-checkout', [PaymentController::class, 'checkoutPage'])->name('payment.checkout');
 
-    Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
 
     Route::get('/booking-information/{slug}', [PaymentController::class, 'booking_information'])->name('booking-information');
     Route::get('/payment/{slug}', [PaymentController::class, 'payment'])->name('payment');

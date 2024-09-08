@@ -26,6 +26,7 @@ use Auth;
 use Session;
 
 use App\Events\SellerToUser;
+use App\Models\TokenOrder;
 
 class UserProfileController extends Controller
 {
@@ -34,7 +35,8 @@ class UserProfileController extends Controller
     {
         $this->middleware('auth:web');
     }
-    public function dashboard(){
+    public function dashboard(Request $request){
+
         $breadcrumb = BreadcrumbImage::where(['id' => 10])->first();
         $user = Auth::guard('web')->user();
 
@@ -69,6 +71,9 @@ class UserProfileController extends Controller
             $active_theme = 'layout';
         }
         $conversion_rate = Token::where('status', 1)->value('conversion_rate');
+
+        $tokenOrders = TokenOrder::where('user_id', $user->id)->orderBy('id','desc')->get();
+
         return view('user.dashboard')->with([
             'active_theme' => $active_theme,
             'breadcrumb' => $breadcrumb,
@@ -81,7 +86,8 @@ class UserProfileController extends Controller
             'currency_icon' => $currency_icon,
             'reviews' => $reviews,
             'tickets' => $tickets,
-            'conversion_rate' => $conversion_rate
+            'conversion_rate' => $conversion_rate,
+            'tokenOrders' => $tokenOrders
         ]);
     }
 

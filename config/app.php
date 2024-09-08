@@ -200,6 +200,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // peach payment
+        Shaz3e\PeachPayment\Providers\PeachPaymentServiceProvider::class,
+
     ],
 
     /*
