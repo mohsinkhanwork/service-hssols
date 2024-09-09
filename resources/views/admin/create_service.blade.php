@@ -63,8 +63,11 @@
                             <select name="provider_id" id="" class="form-control select2">
                                 <option value="">{{__('admin.Select Provider')}}</option>
                                 @foreach ($providers as $provider)
-                                <option value="{{ $provider->id }}">{{ $provider->email }}</option>
-                                @endforeach
+                                <option value="{{ $provider->id }}" 
+                                    {{ $email == $provider->email ? 'selected' : '' }}>
+                                    {{ $provider->email }}
+                                </option>
+                            @endforeach
                             </select>
                         </div>
 

@@ -17,7 +17,7 @@
 
           <div class="section-body">
             <a href="{{ route('admin.customer-list') }}" class="btn btn-primary"><i class="fas fa-list"></i> {{__('admin.User List')}}</a>
-            <div class="row mt-4">
+            <div class="col-md-6">
                 <div class="col">
                   <div class="card">
                     <div class="card-body">
@@ -68,6 +68,42 @@
                   </div>
                 </div>
           </div>
+          <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>{{ __('Token Balance') }}</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="text-success">
+                        <i class="fas fa-coins"></i> {{ $TotaltokenPurchase }} Tokens
+                    </h2>
+                    <p class="text-muted">{{ __('Total tokens earned or purchased') }}</p>
+    
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Order ID') }}</th>
+                                <th>{{ __('Tokens') }}</th>
+                                <th>{{ __('Date') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($tokenOrders as $order)
+                            <tr>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->tokens }}</td>
+                                <td>{{ $order->created_at->format('d M Y') }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+    
+                    {{--  <a href="{{ route('admin.token-orders', $customer->id) }}" class="btn btn-info">
+                        {{ __('View All Token Orders') }}
+                    </a>  --}}
+                </div>
+            </div>
+        </div>
         </section>
       </div>
 

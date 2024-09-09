@@ -27,6 +27,8 @@
                                     <th >{{__('admin.SN')}}</th>
                                     <th >{{__('admin.Name')}}</th>
                                     <th >{{__('admin.Email')}}</th>
+                                    <th >Service Provider </th>
+                                    <th >Category of Services</th>
                                     <th >{{__('admin.Status')}}</th>
                                     <th >{{__('admin.Action')}}</th>
                                   </tr>
@@ -37,7 +39,30 @@
                                         <td>{{ ++$index }}</td>
                                         <td>{{ html_decode($customer->name) }}</td>
                                         <td>{{ $customer->email }}</td>
-
+                                        <td>
+                                            {{ $customer->is_provider ? 'Yes' : 'No' }}
+                                        </td>
+                                        <td>
+                                            @if($customer->is_provider)
+                                                <!-- Get the services for this provider -->
+                                                @php
+                                                    $providerServices = $services->where('provider_id', $customer->id);
+                                                @endphp
+                                                @if($providerServices->count())
+                                                    @foreach($providerServices as $service)
+                                                        {{ $service->category->name ?? 'N/A' }}
+                                                        @if(!$loop->last), @endif
+                                                    @endforeach
+                                                @else
+                                                    N/A
+                                                @endif
+                                            @else
+                                                <!-- Add link to create service if not a provider -->
+                                                <a href="{{ route('admin.service.create') }}?email={{ $customer->email }}" class="btn btn-sm btn-primary">
+                                                    Create Service
+                                                </a>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if($customer->status == 1)
                                             <a href="javascript:;" onclick="manageCustomerStatus({{ $customer->id }})">

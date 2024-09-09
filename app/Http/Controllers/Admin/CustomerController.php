@@ -12,6 +12,8 @@ use App\Models\Ticket;
 use App\Models\TicketMessage;
 use App\Models\MessageDocument;
 use App\Models\Review;
+use App\Models\Message;
+use App\Models\TokenOrder;
 
 use App\Models\RefundRequest;
 use App\Helpers\MailHelper;
@@ -19,6 +21,10 @@ use Mail;
 use App\Mail\SendSingleSellerMail;
 use Image;
 use File;
+use App\Models\Service;
+
+
+
 class CustomerController extends Controller
 {
     public function __construct()
@@ -28,8 +34,12 @@ class CustomerController extends Controller
 
     public function index(){
         $customers = User::orderBy('id','desc')->where('status',1)->get();
+        $providers = User::where('is_provider',1)->orderBy('name','asc')->get();
 
-        return view('admin.customer', compact('customers'));
+        //services
+        $services = Service::with('category','provider','orders')->orderBy('id', 'desc')->get();
+       
+        return view('admin.customer', compact('customers','providers','services'));
     }
 
     public function pendingCustomerList(){
@@ -39,8 +49,10 @@ class CustomerController extends Controller
 
     public function show($id){
         $customer = User::find($id);
+        $tokenOrders = TokenOrder::where('user_id', $id)->get();
         if($customer){
-            return view('admin.show_customer',compact('customer'));
+            $TotaltokenPurchase = $tokenOrders->where('status', 'paid')->sum('tokens_purchased');
+            return view('admin.show_customer',compact('customer','tokenOrders','TotaltokenPurchase'));
         }else{
             $notification='Something went wrong';
             $notification=array('messege'=>$notification,'alert-type'=>'error');

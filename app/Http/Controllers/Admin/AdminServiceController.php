@@ -95,16 +95,23 @@ class AdminServiceController extends Controller
         return view('admin.service', compact('services','currency_icon','title','providers'));
     }
 
-    public function create(){
+    public function create(Request $request){
+        $email = $request->query('email');
+        // dd($email);
         $categories = Category::where('status', 1)->get();
-        $providers = User::where('is_provider',1)->orderBy('name','asc')->select('id','name','email')->get();
+        // $providers = User::where('is_provider',1)->orderBy('name','asc')->select('id','name','email')->get();
+        if($email){
+            $providers = User::where('email', $email)->orderBy('name','asc')->select('id','name','email')->get();
+        }else{
+            $providers = User::where('is_provider',1)->orderBy('name','asc')->select('id','name','email')->get();
+        }
         $conversion_rate = Token::where('status', 1)->value('conversion_rate');
         $setting = Setting::first();
         $currency_icon = array(
             'icon' => $setting->currency_icon
         );
         $currency_icon = (object) $currency_icon;
-        return view('admin.create_service', compact('categories','providers','currency_icon','conversion_rate'));
+        return view('admin.create_service', compact('categories','providers','currency_icon','conversion_rate', 'email'));
     }
 
     public function store(Request $request){
@@ -194,6 +201,11 @@ class AdminServiceController extends Controller
         $service->approve_by_admin = 1;
         $service->status = 1;
         $service->save();
+
+        //update provider_id in the user table
+        $provider = User::find($request->provider_id);
+        $provider->is_provider = 1;
+        $provider->save();
 
 
         if(count($request->additional_services) > 0 && count($request->additional_quantities) > 0 && count($request->additional_prices) > 0){
